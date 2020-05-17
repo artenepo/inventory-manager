@@ -1,0 +1,63 @@
+{% extends "shop/base.html" %}
+{% block content %}
+<div>
+  <form method="GET" name="dateForm">
+    <div class="form-group">
+      <select class="form-control" id="dateFormControlSelect" name="date">
+        {% for date in dates %}
+        <option value="{{ date|date:'Y-m-d' }}" {% if date|date == items.0.sold_date|date %}selected{% endif %}>
+          {{ date|date:"SHORT_DATE_FORMAT" }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+</div>
+<div>
+  <table class="table table-hover">
+    <thead class="bg-light">
+    <tr class="d-flex">
+      <th scope="col" class="col-1">Час</th>
+      <th scope="col" class="col">Назва</th>
+      <th scope="col" class="col-1">Кількість</th>
+      <th scope="col" class="col-1">Ціна (грн.)</th>
+      <th scope="col" class="col-2">Вартість (грн.)</th>
+      <th scope="col" class="col-1">Прибуток</th>
+    </tr>
+    </thead>
+    {% for item in items %}
+    <tr class="d-flex">
+      <td class="col-1">
+        {{ item.sold_date|date:"H:i" }}
+      </td>
+      <td class="col">
+        {{ item.name }}
+      </td>
+      <td class="col-1">
+        {{ item.quantity }}
+      </td>
+      <td class="col-1">
+        {{ item.selling_price }}
+      </td>
+      <td class="col-2">
+        {{ item.cost }}
+      </td>
+      <td class="col-1">
+        {{ item.profit }}
+      </td>
+    </tr>
+    {% endfor %}
+    <tr class="d-flex">
+      <td class="col"></td>
+      <td class="col-1 font-weight-bold">{{ total_profit }}</td>
+    </tr>
+  </table>
+</div>
+<script>$(document).ready(function() {
+  $('#dateFormControlSelect').on('change', function() {
+     document.forms["dateForm"].submit();
+  });
+});
+
+</script>
+{% endblock %}

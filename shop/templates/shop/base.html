@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+          crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+          integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+          crossorigin="anonymous"></script>
+</head>
+<style>
+body {background-color: #484f57;}
+table {background-color: white !important;}
+</style>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item {% if view.template_name == 'shop/sale.html' %}active{% endif %}">
+        <a class="nav-link" href="/">Продаж<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item {% if view.template_name == 'shop/warehouse.html' %}active{% endif %}">
+        <a class="nav-link" href="/warehouse">Склад</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarCategoryDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+          Категорія
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarCategoryDropdown">
+          {% for category in categories %}
+          <a class="dropdown-item" href="?category__id={{ category.id }}">{{ category.name }}</a>
+          {% endfor %}
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="?category__isnull=1">Інше</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarBrandDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+          Виробник
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarBrandDropdown">
+          {% for brand in brands %}
+          <a class="dropdown-item" href="?brand__id={{ brand.id }}"> {{ brand.name }} </a>
+          {% endfor %}
+        </div>
+      </li>
+      <li class="nav-item {% if view.template_name == 'shop/report.html' %}active{% endif %}">
+        <a class="nav-link" href="/report">Звіт</a>
+      </li>
+      <li class="nav-item {% if view.template_name == 'shop/analytics.html' %}active{% endif %}">
+        <a class="nav-link" href="/analytics">Статистика</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" method="GET" action="?search">
+      <input class="form-control mr-sm-2" type="search" placeholder="Назва товару" aria-label="Search" name="search" {% if search %}value="{{ search }}"{% endif%}>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Пошук</button>
+    </form>
+  </div>
+</nav>
+<div class="container-fluid pt-3">
+  {% block content %}
+  {% endblock %}
+</div>
+</body>
+</html>

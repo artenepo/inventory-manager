@@ -1,0 +1,39 @@
+{% extends "shop/base.html" %}
+{% block content %}
+<div class="text-light"><h5>Найприбутковіші товари за останніх 30 днів</h5></div>
+<div>
+  <table class="table table-hover">
+    <thead class="bg-light">
+    <tr class="d-flex">
+      <th scope="col" class="col">Назва</th>
+      <th scope="col" class="col-1">Продано</th>
+      <th scope="col" class="col-1">Прибуток</th>
+    </tr>
+    </thead>
+    {% for item in items %}
+    <tr class="d-flex">
+      <td class="col">
+        {{ item.product }}
+      </td>
+      <td class="col-1">
+        {{ item.quantity }}
+      </td>
+      <td class="col-1">
+        {{ item.profit }}
+      </td>
+    </tr>
+    {% endfor %}
+    <tr class="d-flex">
+      <td class="col"></td>
+      <td class="col-1 font-weight-bold">{{ total_profit }}</td>
+    </tr>
+  </table>
+</div>
+<script>$(document).ready(function() {
+  $('#dateFormControlSelect').on('change', function() {
+     document.forms["dateForm"].submit();
+  });
+});
+
+</script>
+{% endblock %}

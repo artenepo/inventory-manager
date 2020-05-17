@@ -1,0 +1,43 @@
+{% extends "shop/base.html" %}
+{% block content %}
+<div>
+  <table class="table table-hover">
+    <thead class="thead-light">
+    <tr class="d-flex">
+      <th scope="col" class="col">Назва</th>
+      <th scope="col" class="col-2">Ціна (грн.)</th>
+      <th scope="col" class="col-1">Кількість</th>
+      <th scope="col" class="col-1">Продаж</th>
+      <th scope="col" class="col-1">Склад</th>
+    </tr>
+    </thead>
+    {% for product in products %}
+    <tr class="d-flex">
+      <form method="POST">{% csrf_token %}
+        <td class="col pt-3">
+          {{ product.name }}
+        </td>
+        <td class="col-2">
+          <input type="number" class="form-control" value="{{ product.price|floatformat }}" min="1" step="0.01"
+                 name="price" required  {% if product.quantity == 0 %} disabled {% endif %}>
+        </td>
+        <td class="col-1">
+          <input type="number" class="form-control" min="1" name="amount" required {% if product.quantity > 0 %} value="1" {% else %} disabled {% endif %}>
+        </td>
+        <td class="col-1">
+          <input hidden type="number" value="{{ product.id }}" name="product__id">
+          {% if product.quantity > 0 %}
+          <button type="submit" class="btn btn-primary mb-2">Продаж</button>
+          {% else %}
+          <button type="submit" class="btn btn-primary mb-2" disabled>Продаж</button>
+          {% endif %}
+        </td>
+        <td class="col-1 pt-3 {% if product.quantity == 0 %}text-danger{% endif %}">
+          {{ product.quantity }}
+        </td>
+      </form>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

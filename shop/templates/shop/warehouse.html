@@ -1,0 +1,49 @@
+{% extends "shop/base.html" %}
+{% block content %}
+<div>
+  <table class="table table-hover">
+    <thead class="bg-warning">
+    <tr class="d-flex">
+      <th scope="col" class="col">Назва</th>
+      <th scope="col" class="col-2">Постачальник</th>
+      <th scope="col" class="col-2">Вартість (грн.)</th>
+      <th scope="col" class="col-1">Кількість</th>
+      <th scope="col" class="col-1">Додати</th>
+      <th scope="col" class="col-1">Склад</th>
+    </tr>
+    </thead>
+    {% for product in products %}
+    <tr class="d-flex">
+      <form method="POST">{% csrf_token %}
+        <td class="col pt-3">
+          {{ product.name }}
+        </td>
+        <td class="col-2">
+          <div class="form-group" style="margin-bottom:0">
+            <select class="form-control" id="supplierFormControlSelect" name="supplier__id">
+              {% for supplier in suppliers %}
+              <option value="{{ supplier.id }}">{{ supplier }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </td>
+        <td class="col-2">
+          <input type="number" class="form-control" step="0.01" value="{{ product.cost|floatformat }}" min="1"
+                 name="cost" required>
+        </td>
+        <td class="col-1">
+          <input type="number" class="form-control" value="1" min="1" name="amount" required>
+        </td>
+        <td class="col-1">
+          <input hidden type="number" value="{{ product.id }}" name="product__id">
+          <button type="submit" class="btn btn-warning mb-2">Додати</button>
+        </td>
+        <td class="col-1 pt-3">
+          {{ product.quantity }}
+        </td>
+      </form>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
